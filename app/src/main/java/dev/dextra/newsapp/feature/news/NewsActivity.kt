@@ -6,65 +6,88 @@ import android.net.Uri
 import android.os.Bundle
 import android.view.Window
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.Observer
+import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import dev.dextra.newsapp.R
 import dev.dextra.newsapp.api.model.Article
 import dev.dextra.newsapp.api.model.Source
-import dev.dextra.newsapp.api.repository.NewsRepository
-import dev.dextra.newsapp.base.repository.EndpointService
+import dev.dextra.newsapp.components.LoadPageScrollListener
 import dev.dextra.newsapp.feature.news.adapter.ArticleListAdapter
 import kotlinx.android.synthetic.main.activity_news.*
+import org.koin.android.ext.android.inject
 
+class NewsActivity : AppCompatActivity(), ArticleListAdapter.ArticleListAdapterListener {
 
-const val NEWS_ACTIVITY_SOURCE = "NEWS_ACTIVITY_SOURCE"
+    private val newsViewModel: NewsViewModel by inject()
+    private var viewAdapter: ArticleListAdapter = ArticleListAdapter(this)
+    private var viewManager: RecyclerView.LayoutManager = GridLayoutManager(this, 1)
+    private var loading: Dialog? = null
 
-class NewsActivity : AppCompatActivity() {
-
-    private val newsViewModel = NewsViewModel(NewsRepository(EndpointService()), this)
+    private val loadPageScrollListener = object :
+        LoadPageScrollListener.LoadPageScrollLoadMoreListener {
+        override fun onLoadMore(
+            currentPage: Int,
+            totalItemCount: Int,
+            recyclerView: RecyclerView
+        ) {
+            showLoading()
+            newsViewModel.loadNews(currentPage, totalItemCount)
+        }
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         setContentView(R.layout.activity_news)
 
         (intent?.extras?.getSerializable(NEWS_ACTIVITY_SOURCE) as Source).let { source ->
             title = source.name
-
-            loadNews(source)
+            newsViewModel.configureSource(source)
+            setupList()
+            observeEvents()
+            newsViewModel.loadNews()
         }
-
         super.onCreate(savedInstanceState)
-
     }
 
-    private fun loadNews(source: Source) {
-        newsViewModel.configureSource(source)
-        newsViewModel.loadNews()
+    private fun observeEvents() {
+        newsViewModel.articles.observe(this, Observer {
+            viewAdapter.apply {
+                add(it)
+                notifyDataSetChanged()
+            }
+            hideLoading()
+        })
     }
 
-    fun onClick(article: Article) {
+    override fun onClick(article: Article) {
         val i = Intent(Intent.ACTION_VIEW)
         i.data = Uri.parse(article.url)
         startActivity(i)
     }
 
-    private var loading: Dialog? = null
-
-    fun showLoading() {
+    private fun showLoading() {
         if (loading == null) {
             loading = Dialog(this)
             loading?.apply {
                 requestWindowFeature(Window.FEATURE_NO_TITLE)
-                window.setBackgroundDrawableResource(android.R.color.transparent)
+                window?.setBackgroundDrawableResource(android.R.color.transparent)
                 setContentView(R.layout.dialog_loading)
             }
         }
         loading?.show()
     }
 
-    fun hideLoading() {
-        loading?.dismiss()
+    private fun hideLoading() = loading?.dismiss()
+
+    private fun setupList() {
+        news_list.apply {
+            layoutManager = viewManager
+            adapter = viewAdapter
+            addOnScrollListener(LoadPageScrollListener(loadPageScrollListener))
+        }
     }
 
-    fun showData(articles: List<Article>) {
-        val viewAdapter = ArticleListAdapter(this@NewsActivity, this@NewsActivity, articles)
-        news_list.adapter = viewAdapter
+    companion object {
+        const val NEWS_ACTIVITY_SOURCE = "NEWS_ACTIVITY_SOURCE"
     }
 }

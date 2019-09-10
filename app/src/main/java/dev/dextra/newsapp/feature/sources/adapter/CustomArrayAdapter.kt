@@ -22,5 +22,4 @@ class CustomArrayAdapter<T>(context: Context, resource: Int, objects: MutableLis
 
         return view
     }
-
 }

@@ -1,5 +1,6 @@
 package dev.dextra.newsapp.feature.sources
 
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import dev.dextra.newsapp.api.model.Source
 import dev.dextra.newsapp.api.model.enums.Category
@@ -10,40 +11,42 @@ import dev.dextra.newsapp.base.NetworkState
 
 class SourcesViewModel(private val newsRepository: NewsRepository) : BaseViewModel() {
 
-    val sources = MutableLiveData<List<Source>>()
-    val networkState = MutableLiveData<NetworkState>()
+    private val _sources = MutableLiveData<List<Source>>()
+    val sources: LiveData<List<Source>> = _sources
+    private val _networkState = MutableLiveData<NetworkState>()
+    val networkState: LiveData<NetworkState> = _networkState
 
     private var selectedCountry: Country? = null
     private var selectedCategory: Category? = null
 
     fun loadSources() {
-        networkState.postValue(NetworkState.RUNNING)
+        _networkState.postValue(NetworkState.RUNNING)
         addDisposable(
             newsRepository.getSources(
-                selectedCountry!!.name.toLowerCase(),
-                selectedCategory!!.name.toLowerCase()
+                selectedCountry?.name?.toLowerCase(),
+                selectedCategory?.name?.toLowerCase()
             ).subscribe({
-                sources.postValue(it.sources)
+                _sources.postValue(it.sources)
                 if (it.sources.isEmpty()) {
-                    networkState.postValue(NetworkState.ERROR)
+                    _networkState.postValue(NetworkState.EMPTY)
                 } else {
-                    networkState.postValue(NetworkState.SUCCESS)
+                    _networkState.postValue(NetworkState.SUCCESS)
                 }
             }, {
-                networkState.postValue(NetworkState.ERROR)
+                _networkState.postValue(NetworkState.ERROR)
             })
         )
     }
 
     fun changeCountry(country: Country?) {
-        if (Country.ALL.equals(country)) selectedCountry = null
-        else selectedCountry = country
+        selectedCountry = if (Country.ALL == country) null
+        else country
         loadSources()
     }
 
     fun changeCategory(category: Category) {
-        if (Category.ALL.equals(category)) selectedCategory = null
-        else selectedCategory = category
+        selectedCategory = if (Category.ALL == category) null
+        else category
         loadSources()
     }
 }

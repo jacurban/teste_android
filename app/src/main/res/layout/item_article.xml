@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              xmlns:tools="http://schemas.android.com/tools"
-              android:layout_width="match_parent"
-              android:layout_height="wrap_content"
-              android:orientation="vertical">
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
 
 
     <LinearLayout
@@ -21,10 +21,10 @@
 
             <TextView
                     android:id="@+id/article_name"
-                    android:textColor="@color/black"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="TEST sdfs idnsidnsind sid"/>
+                    android:text="TEST sdfs idnsidnsind sid"
+                    android:textColor="@color/black" />
         </LinearLayout>
 
 
@@ -39,7 +39,7 @@
                     android:id="@+id/article_description"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Some info about test b=isdnisdnis disn disnisi dnsidnsindi nsid nsid isn dinsidnsidnisndisndindi nsi ndisd"/>
+                    android:text="Some info about test b=isdnisdnis disn disnisi dnsidnsindi nsid nsid isn dinsidnsidnisndisndindi nsi ndisd" />
 
 
         </LinearLayout>
@@ -57,17 +57,19 @@
                     android:layout_weight="1"
                     android:ellipsize="end"
                     android:singleLine="true"
-                    android:text="John Doe multiple lines test sudushduh udusdssdi"/>
+                    android:text="John Doe multiple lines test sudushduh udusdssdi" />
 
             <TextView
                     android:id="@+id/article_date"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="01/01/2019"/>
-
-
+                    android:text="01/01/2019" />
         </LinearLayout>
+
     </LinearLayout>
 
-
+    <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/colorGray" />
 </LinearLayout>

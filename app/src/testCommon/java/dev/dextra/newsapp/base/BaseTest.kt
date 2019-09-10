@@ -19,5 +19,4 @@ open class BaseTest(private val instrumented: Boolean = false) {
     fun clear(){
         TestSuite.clear()
     }
-
 }
