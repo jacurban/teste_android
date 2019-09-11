@@ -20,10 +20,10 @@ class LoadPageScrollListener(private val loadPageScrollLoadMoreListener: LoadPag
             val totalItemCount = layoutManager.getItemCount()
 
             if (totalItemCount < previousTotalItemCount) {
-                this.currentPage = this.startingPageIndex
+                this.currentPage = startingPageIndex
                 this.previousTotalItemCount = totalItemCount
                 if (totalItemCount == 0) {
-                    this.loading = true
+                    loading = true
                 }
             }
 
@@ -38,17 +38,13 @@ class LoadPageScrollListener(private val loadPageScrollLoadMoreListener: LoadPag
                 loading = true
             }
         }
-
     }
 
     interface LoadPageScrollLoadMoreListener {
-
         fun onLoadMore(
             currentPage: Int,
             totalItemCount: Int,
             recyclerView: RecyclerView
         )
-
     }
-
 }

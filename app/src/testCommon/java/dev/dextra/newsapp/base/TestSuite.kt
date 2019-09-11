@@ -11,8 +11,7 @@ import org.koin.test.mock.declare
 
 object TestSuite : KoinTest{
 
-    var endpointService: MockedEndpointService? = null
-        private set
+    private var endpointService: MockedEndpointService? = null
 
     fun mock(url: String): EndpointMock {
         var url = url
@@ -23,7 +22,7 @@ object TestSuite : KoinTest{
     }
 
     fun clearEndpointMocks() {
-        endpointService!!.clearMocks()
+        endpointService?.clearMocks()
     }
 
     //set the MockedEndpointService with Koin
@@ -48,5 +47,4 @@ object TestSuite : KoinTest{
         clearEndpointMocks()
         stopKoin()
     }
-
 }

@@ -1,5 +1,6 @@
 package dev.dextra.newsapp.components
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.Rect
 import android.graphics.drawable.Drawable
@@ -17,7 +18,6 @@ class CustomAutoCompleteTextView : AppCompatAutoCompleteTextView {
     constructor(context: Context, attrs: AttributeSet?) : super(context, attrs)
 
     constructor(context: Context, attrs: AttributeSet?, defStyleAttr: Int) : super(context, attrs, defStyleAttr)
-
 
     override fun convertSelectionToString(selectedItem: Any?): CharSequence {
         if (selectedItem is BaseDataEnum) {
@@ -44,6 +44,7 @@ class CustomAutoCompleteTextView : AppCompatAutoCompleteTextView {
         }
     }
 
+    @SuppressLint("ClickableViewAccessibility")
     override fun onTouchEvent(event: MotionEvent?): Boolean {
         performFiltering("", 0)
         showDropDown()
@@ -62,6 +63,5 @@ class CustomAutoCompleteTextView : AppCompatAutoCompleteTextView {
             rightCopy = dropdownIcon
         }
         super.setCompoundDrawablesRelativeWithIntrinsicBounds(left, top, rightCopy, bottom)
-
     }
 }

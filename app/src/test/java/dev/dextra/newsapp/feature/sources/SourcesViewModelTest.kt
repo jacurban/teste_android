@@ -16,12 +16,11 @@ import org.junit.Before
 import org.junit.Test
 import org.koin.test.get
 
-
 class SourcesViewModelTest : BaseTest() {
 
     val emptyResponse = SourceResponse(ArrayList(), "ok")
 
-    lateinit var viewModel: SourcesViewModel
+    private lateinit var viewModel: SourcesViewModel
 
     @Before
     fun setupTest() {
@@ -32,7 +31,7 @@ class SourcesViewModelTest : BaseTest() {
     fun testGetSources() {
         viewModel.loadSources()
 
-        assert(viewModel.sources.value?.size == 136)
+        assert(viewModel.sources.value?.size == SUCCESS_SIZE)
         assertEquals(NetworkState.SUCCESS, viewModel.networkState.value)
 
         viewModel.onCleared()
@@ -46,7 +45,7 @@ class SourcesViewModelTest : BaseTest() {
 
         viewModel.loadSources()
 
-        assert(viewModel.sources.value?.size == 0)
+        assert(viewModel.sources.value?.size == EMPTY_SIZE)
         assertEquals(NetworkState.EMPTY, viewModel.networkState.value)
     }
 
@@ -72,14 +71,13 @@ class SourcesViewModelTest : BaseTest() {
 
         viewModel.changeCountry(Country.BR)
 
-        assert(viewModel.sources.value?.size == 0)
+        assert(viewModel.sources.value?.size == EMPTY_SIZE)
         assertEquals(NetworkState.EMPTY, viewModel.networkState.value)
 
         viewModel.changeCountry(Country.ALL)
 
-        assert(viewModel.sources.value?.size == 136)
+        assert(viewModel.sources.value?.size == SUCCESS_SIZE)
         assertEquals(NetworkState.SUCCESS, viewModel.networkState.value)
-
     }
 
     @Test
@@ -94,13 +92,17 @@ class SourcesViewModelTest : BaseTest() {
 
         viewModel.changeCategory(Category.BUSINESS)
 
-        assert(viewModel.sources.value?.size == 0)
+        assert(viewModel.sources.value?.size == EMPTY_SIZE)
         assertEquals(NetworkState.EMPTY, viewModel.networkState.value)
 
         viewModel.changeCategory(Category.ALL)
 
-        assert(viewModel.sources.value?.size == 136)
+        assert(viewModel.sources.value?.size == SUCCESS_SIZE)
         assertEquals(NetworkState.SUCCESS, viewModel.networkState.value)
+    }
 
+    companion object{
+        const val SUCCESS_SIZE = 136
+        const val EMPTY_SIZE = 0
     }
 }

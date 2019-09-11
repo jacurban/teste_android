@@ -1,7 +1,6 @@
 package dev.dextra.newsapp.base
 
 import android.app.Dialog
-import android.content.Context
 import android.content.res.Configuration
 import android.os.Bundle
 import android.view.View
@@ -12,9 +11,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import dev.dextra.newsapp.R
 import kotlinx.android.synthetic.main.empty_state.*
-import kotlinx.android.synthetic.main.empty_state.view.*
 import kotlinx.android.synthetic.main.error_state.*
-import kotlinx.android.synthetic.main.error_state.view.*
 
 abstract class BaseListActivity : AppCompatActivity() {
 
@@ -34,21 +31,21 @@ abstract class BaseListActivity : AppCompatActivity() {
     }
 
     private fun setupEmptyState(title: Int, subtitle: Int) {
-        empty_state.empty_state_title.text = getString(title)
-        empty_state.empty_state_subtitle.text = getString(subtitle)
+        empty_state_title.text = getString(title)
+        empty_state_subtitle.text = getString(subtitle)
     }
 
     private fun setupErrorState(title: Int, subtitle: Int) {
-        error_state.error_state_title.text = getString(title)
-        error_state.error_state_subtitle.text = getString(subtitle)
-        error_state.error_state_retry.setOnClickListener {
+        error_state_title.text = getString(title)
+        error_state_subtitle.text = getString(subtitle)
+        error_state_retry.setOnClickListener {
             executeRetry()
         }
     }
 
     private var loadingDialog: Dialog? = null
 
-    fun showLoading(context: Context) {
+    private fun showLoading() {
         if (loadingDialog == null) {
             initDialog()
         }
@@ -60,21 +57,18 @@ abstract class BaseListActivity : AppCompatActivity() {
         loadingDialog?.apply {
             requestWindowFeature(Window.FEATURE_NO_TITLE)
             setCancelable(false)
-            window.setBackgroundDrawableResource(android.R.color.transparent)
+            window?.setBackgroundDrawableResource(android.R.color.transparent)
             setContentView(R.layout.dialog_loading)
         }
     }
 
-    fun hideLoading() {
+    private fun hideLoading() {
         loadingDialog?.dismiss()
     }
 
-    override fun onConfigurationChanged(newConfig: Configuration?) {
+    override fun onConfigurationChanged(newConfig: Configuration) {
         super.onConfigurationChanged(newConfig)
-
-        newConfig?.orientation?.let {
-            configureOrientation(it)
-        }
+        configureOrientation(newConfig.orientation)
     }
 
     private fun configureOrientation(orientation: Int) {
@@ -86,7 +80,7 @@ abstract class BaseListActivity : AppCompatActivity() {
 
     protected val networkStateObserver = Observer<NetworkState> { networkState ->
         if (NetworkState.RUNNING == networkState) {
-            showLoading(this)
+            showLoading()
         } else {
             hideLoading()
         }
@@ -97,8 +91,8 @@ abstract class BaseListActivity : AppCompatActivity() {
                 show(mainList)
             }
             NetworkState.EMPTY -> {
-                hide(empty_state)
-                show(error_state)
+                show(empty_state)
+                hide(error_state)
                 hide(mainList)
             }
             NetworkState.ERROR -> {
@@ -111,11 +105,11 @@ abstract class BaseListActivity : AppCompatActivity() {
         }
     }
 
-    fun show(view: View) {
+    private fun show(view: View) {
         view.visibility = VISIBLE
     }
 
-    fun hide(view: View) {
+    private fun hide(view: View) {
         view.visibility = GONE
     }
 

@@ -13,7 +13,6 @@ open class BaseInstrumentedTest : BaseTest(true) {
         while (isLoadingVisible()) {
             Thread.sleep(200)
         }
-
     }
 
     private fun isLoadingVisible(): Boolean {
@@ -25,5 +24,4 @@ open class BaseInstrumentedTest : BaseTest(true) {
         }
         return false
     }
-
 }

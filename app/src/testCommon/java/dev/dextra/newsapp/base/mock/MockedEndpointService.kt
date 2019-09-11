@@ -68,7 +68,8 @@ class MockedEndpointService : EndpointService() {
     private fun defaultResponse(chain: Interceptor.Chain, endpoint: String): Response {
         val builder = defaultBuilder(chain)
 
-        val content = FileUtils.readJson(endpoint.substring(1) + ".json") ?: return endpointNotMocked(endpoint)
+        val content = FileUtils.readJson(endpoint.substring(1) + ".json")
+            ?: return endpointNotMocked(endpoint)
         return builder.code(200)
             .body(ResponseBody.create(JSON_MEDIA_TYPE, content))
             .build()

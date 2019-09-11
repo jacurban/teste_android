@@ -17,13 +17,12 @@ import dev.dextra.newsapp.api.model.Source
 import dev.dextra.newsapp.api.model.enums.Category
 import dev.dextra.newsapp.api.model.enums.Country
 import dev.dextra.newsapp.base.BaseListActivity
-import dev.dextra.newsapp.feature.news.NEWS_ACTIVITY_SOURCE
 import dev.dextra.newsapp.feature.news.NewsActivity
+import dev.dextra.newsapp.feature.news.NewsActivity.Companion.NEWS_ACTIVITY_SOURCE
 import dev.dextra.newsapp.feature.sources.adapter.CustomArrayAdapter
 import dev.dextra.newsapp.feature.sources.adapter.SourcesListAdapter
 import kotlinx.android.synthetic.main.activity_sources.*
 import org.koin.android.ext.android.inject
-
 
 class SourcesActivity : BaseListActivity(), SourcesListAdapter.SourceListAdapterItemListener {
 
@@ -34,7 +33,7 @@ class SourcesActivity : BaseListActivity(), SourcesListAdapter.SourceListAdapter
     override val mainList: View
         get() = sources_list
 
-    val sourcesViewModel: SourcesViewModel by inject()
+    private val sourcesViewModel: SourcesViewModel by inject()
 
     private var viewAdapter: SourcesListAdapter = SourcesListAdapter(this)
     private var viewManager: RecyclerView.LayoutManager = GridLayoutManager(this, 1)
@@ -58,7 +57,6 @@ class SourcesActivity : BaseListActivity(), SourcesListAdapter.SourceListAdapter
         sourcesViewModel.sources.observe(this, Observer {
             viewAdapter.apply {
                 clear()
-                notifyDataSetChanged()
                 add(it)
                 notifyDataSetChanged()
                 sources_list.scrollToPosition(0)
@@ -84,7 +82,7 @@ class SourcesActivity : BaseListActivity(), SourcesListAdapter.SourceListAdapter
         )
         country_select.setAdapter(countryAdapter)
         country_select.keyListener = null
-        country_select.setOnItemClickListener { parent, view, position, id ->
+        country_select.setOnItemClickListener { parent, _, position, _ ->
             val item = parent.getItemAtPosition(position)
             if (item is Country) {
                 sourcesViewModel.changeCountry(item)
@@ -98,8 +96,9 @@ class SourcesActivity : BaseListActivity(), SourcesListAdapter.SourceListAdapter
                 Category.values().toMutableList()
             )
         )
+
         category_select.keyListener = null
-        category_select.setOnItemClickListener { parent, view, position, id ->
+        category_select.setOnItemClickListener { parent, _, position, _ ->
             val item = parent.getItemAtPosition(position)
             if (item is Category) {
                 sourcesViewModel.changeCategory(item)
