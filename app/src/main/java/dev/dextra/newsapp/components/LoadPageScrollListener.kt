@@ -37,7 +37,6 @@ class LoadPageScrollListener(private val loadPageScrollLoadMoreListener: LoadPag
                 loadPageScrollLoadMoreListener.onLoadMore(currentPage, totalItemCount, recyclerView)
                 loading = true
             }
-            loading
         }
     }
 

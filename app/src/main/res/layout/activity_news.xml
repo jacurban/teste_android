@@ -11,5 +11,4 @@
             style="@style/ListStyle"
             android:id="@+id/news_list"
             tools:listitem="@layout/item_article"/>
-
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

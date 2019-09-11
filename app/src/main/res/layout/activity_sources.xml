@@ -9,7 +9,6 @@
         android:focusableInTouchMode="true"
         tools:context=".feature.sources.SourcesActivity">
 
-
     <com.google.android.material.appbar.AppBarLayout
             android:id="@+id/app_bar"
             android:layout_width="match_parent"
@@ -47,7 +46,6 @@
                             android:layout_height="wrap_content" />
                 </com.google.android.material.textfield.TextInputLayout>
 
-
                 <com.google.android.material.textfield.TextInputLayout
                         android:id="@+id/category_select_layout"
                         android:layout_width="match_parent"
@@ -60,13 +58,9 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content" />
                 </com.google.android.material.textfield.TextInputLayout>
-
             </LinearLayout>
-
         </com.google.android.material.appbar.CollapsingToolbarLayout>
-
     </com.google.android.material.appbar.AppBarLayout>
-
     <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/sources_list"
             style="@style/ListStyle"

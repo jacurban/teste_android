@@ -23,7 +23,7 @@ class NewsViewModel(private val newsRepository: NewsRepository) : BaseViewModel(
     }
 
     fun loadNews() {
-        loadNews(1, 10)
+        loadNews(FIRST_PAGE, TOTAL_PAGES)
     }
 
     fun loadNews(page: Int, totalPage: Int) {
@@ -41,5 +41,10 @@ class NewsViewModel(private val newsRepository: NewsRepository) : BaseViewModel(
                     _networkState.postValue(NetworkState.ERROR)
                 }
             ))
+    }
+
+    companion object{
+        const val FIRST_PAGE = 1
+        const val TOTAL_PAGES = 20
     }
 }

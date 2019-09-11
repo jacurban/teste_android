@@ -83,12 +83,10 @@ class SourcesActivityInstrumentedTest : BaseInstrumentedTest() {
         SourcesRobot().apply {
             clickOnCountry()
             clickOnBrazil()
-        }
 
-        waitLoading()
+            waitLoading()
 
-        //check if the Sources list is displayed with the correct item and the empty and error states are hidden
-        SourcesRobot().apply {
+            //check if the Sources list is displayed with the correct item and the empty and error states are hidden
             checkSourceListIsDisplayed()
             checkEmptyStateNotDisplayed()
             checkErrorStateNotDisplayed()
@@ -104,12 +102,10 @@ class SourcesActivityInstrumentedTest : BaseInstrumentedTest() {
         SourcesRobot().apply {
             clickOnCountry()
             clickOnUnitedStates()
-        }
 
-        waitLoading()
+            waitLoading()
 
-        //check if the empty state is displayed with the correct item and the source list and error state are hidden
-        SourcesRobot().apply {
+            //check if the empty state is displayed with the correct item and the source list and error state are hidden
             checkEmptyStateIsDisplayed()
             checkSourceListNotDisplayed()
             checkErrorStateNotDisplayed()
@@ -124,28 +120,23 @@ class SourcesActivityInstrumentedTest : BaseInstrumentedTest() {
         SourcesRobot().apply {
             clickOnCountry()
             clickOnCanada()
-        }
-        waitLoading()
 
-        //check if the error state is displayed with the correct item and the source list and empty state are hidden
-        SourcesRobot().apply {
+            waitLoading()
+
+            //check if the error state is displayed with the correct item and the source list and empty state are hidden
             checkErrorStateIsDisplayed()
             checkEmptyStateNotDisplayed()
             checkSourceListNotDisplayed()
-        }
 
-        //clear the mocks to use just the json files
-        TestSuite.clearEndpointMocks()
+            //clear the mocks to use just the json files
+            TestSuite.clearEndpointMocks()
 
-        //retry in the error state
-        SourcesRobot().apply {
+            //retry in the error state
             clickOnRetryErrorState()
-        }
 
-        waitLoading()
+            waitLoading()
 
-        //check if the Sources list is displayed and the empty and error states are hidden
-        SourcesRobot().apply {
+            //check if the Sources list is displayed and the empty and error states are hidden
             checkSourceListIsDisplayed()
             checkErrorStateNotDisplayed()
             checkEmptyStateNotDisplayed()
@@ -170,11 +161,10 @@ class SourcesActivityInstrumentedTest : BaseInstrumentedTest() {
         SourcesRobot().apply {
             clickOnCategory()
             clickOnBusiness()
-        }
-        waitLoading()
 
-        //check if the Sources list is displayed with the correct item and the empty and error states are hidden
-        SourcesRobot().apply {
+            waitLoading()
+
+            //check if the Sources list is displayed with the correct item and the empty and error states are hidden
             checkSourceListIsDisplayed()
             checkErrorStateNotDisplayed()
             checkEmptyStateNotDisplayed()
